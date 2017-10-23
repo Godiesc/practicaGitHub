@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{controllerUsuario.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head></h:head>
+<body>
+	<div align="right">
+		<p:commandButton action="#{controllerUsuario.actionSalir()}"
+			icon="ui-icon-close" value="Cerrar sesión"></p:commandButton>
+	</div>
+	<p:panel header="MIS BLOGS">
+		<p:messages autoUpdate="true"></p:messages>
+		<h:panelGrid columns="2">
+			<h:form id="form1">
+				<h:panelGrid columns="2">
+					<h:outputText value="Nombre del blog:" />
+					<p:inputText value="#{controllerBlog.nombreBlog}" />
+					<h:outputText value="Descripción:" />
+					<p:inputTextarea value="#{controllerBlog.descripcionBlog}" />
+					<h:outputText value="Título del artículo:" />
+					<p:inputText value="#{controllerBlog.tituloArticulo}" />
+					<h:outputText value="Contenido:" />
+					<p:inputTextarea value="#{controllerBlog.contenidoArticulo}" />
+					<h:outputText value="" />
+					<p:commandButton value="Guardar blog"
+						actionListener="#{controllerBlog.actionListenerCrearBlog()}"
+						update=":form2:tabla1"></p:commandButton>
+				</h:panelGrid>
+			</h:form>
+			<h:form id="form2">
+				<p:dataTable value="#{controllerBlog.listaBlogs}" var="blog"
+					id="tabla1">
+					<p:column headerText="BLOG">
+						<h:outputText value="#{blog.nombreBlog}" />
+					</p:column>
+					<p:column headerText="DESCRIPCION">
+						<h:outputText value="#{blog.descripcion}" />
+					</p:column>
+					<p:column headerText="VER ARTICULOS">
+						<p:commandButton icon="ui-icon-search"
+							action="#{controllerBlog.actionListenerCargarBlog(blog)}"
+							update=":form3:tabla2"></p:commandButton>
+					</p:column>
+					<p:column headerText="EDITAR BLOG">
+						<p:commandButton icon="ui-icon-pencil" update="form2"
+							onclick="PF('dialogo1').show();"
+							actionListener="#{controllerBlog.cargarBlog(blog)}"></p:commandButton>
+					</p:column>
+					<p:column headerText="ELIMINARBLOG">
+						<p:commandButton icon="ui-icon-close"
+							actionListener="#{controllerBlog.actionListenerEliminarBlog(blog)}"
+							update="form2"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+		</h:panelGrid>
+		<p:panel header="ARTICULOS DEL BLOG">
+			<h:form id="form3">
+				<p:dataTable value="#{controllerBlog.consultarArticulos()}" var="a"
+					id="tabla2">
+					<p:column headerText="TITULO">
+						<h:outputText value="#{a.titulo}" />
+					</p:column>
+					<p:column headerText="CONTENIDO">
+						<h:outputText value="#{a.contenido}" />
+					</p:column>
+					<p:column headerText="LIKES">
+						<h:outputText value="#{a.likes}" />
+					</p:column>
+					<p:column headerText="RECAUDO">
+						<h:outputText value="#{a.recaudado}" />
+					</p:column>
+					<p:column headerText="EDITAR BLOG">
+						<p:commandButton icon="ui-icon-pencil" update="form3"
+							onclick="PF('dialogo2').show();"
+							actionListener="#{controllerBlog.cargarArticulo(a)}"></p:commandButton>
+					</p:column>
+					<p:column headerText="ELIMINAR BLOG">
+						<p:commandButton icon="ui-icon-close"
+							actionListener="#{controllerBlog.actionListenerEliminarBlog(a)}"
+							update="form3"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</p:panel>
+	<p:dialog header="EDICION DE BLOG" widgetVar="dialogo1" id="dialogo1"
+		modal="true" height="200">
+		<h:form id="form4">
+			<p:messages autoUpdate="true"></p:messages>
+			<p:panelGrid columns="2">
+				<h:outputText value="NOMBRE BLOG" />
+				<h:inputText value="#{controllerBlog.nombreBlog}" />
+				<h:outputText value="DESCRIPCION BLOG" />
+				<p:inputText value="#{controllerBlog.descripcionBlog}"
+					required="true" />
+				<p:commandButton value="ACTUALIZAR" update="@form,:form2:tabla1"
+					actionListener="#{controllerBlog.actionListenerEditarBlog()}"></p:commandButton>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:dialog header="EDICION DE UN ARTICULO" widgetVar="dialogo2"
+		id="dialogo2" modal="true" height="200">
+		<h:form id="form5">
+			<p:messages autoUpdate="true"></p:messages>
+			<p:panelGrid columns="2">
+				<h:outputText value="TITULO ARTICULO" />
+				<h:inputText value="#{controllerBlog.tituloArticulo}" />
+				<h:outputText value="CONTENIDO ARTICULO" />
+				<p:inputText value="#{controllerBlog.contenidoArticulo}"
+					required="true" />
+				<p:commandButton value="ACTUALIZAR" update="@form,:form3:tabla2"
+					actionListener="#{controllerBlog.actionListenerEditarArticulo()}"></p:commandButton>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</body>
+</html>

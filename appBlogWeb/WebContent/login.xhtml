@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<body>
+	<div align="center">
+		<p:panel header="LOGIN" style="width:500px">
+			<p:growl autoUpdate="true"></p:growl>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputText value="Id de usuario:" />
+					<p:inputText value="#{controllerUsuario.idUsuario}" 
+						requiredMessage="Ingrese su ID de usuario."></p:inputText>
+					<h:outputText value="clave:" />
+					<p:password value="#{controllerUsuario.clave}"></p:password>
+					<p:commandButton value="Ingresar" icon="ui-icon-key"
+						action="#{controllerUsuario.actionLogin()}"></p:commandButton>
+					
+				</h:panelGrid>
+				
+			</h:form>
+		</p:panel>
+		<div align="center">
+				<p:commandButton value="Entrar como visitante" action="#{controllerUsuario.actionvisitante()}"></p:commandButton>
+				</div>
+		<p:panel header="NUEVOS BLOGGERS" style="width:500px">
+			<h:outputText value="Si es un nuevo usuario, debe registrarse:" />
+			<h:form>
+				<p:panelGrid columns="2">
+					<h:outputText value="ID de usuario:" />
+					<p:inputText value="#{controllerUsuario.idUsuario}" required="true"
+						requiredMessage="Debe ingresar un ID de usuario." maxlength="10"></p:inputText>
+					<h:outputText value="Contraseña:" />
+					<p:password value="#{controllerUsuario.clave}" required="true"
+						requiredMessage="Ingrese una contraseña" maxlength="10" size="10"></p:password>
+					<h:outputText value="Confirmación de clave:" />
+					<p:password value="#{controllerUsuario.confirmacionClave}"
+						requiredMessage="Confirme la contraseña." required="true"
+						maxlength="10" size="10"></p:password>
+					<h:outputText value="correo:" />
+					<p:inputText value="#{controllerUsuario.correo}" required="true"
+						requiredMessage="Debe ingresar un correo."></p:inputText>
+					<p:commandButton value="Registrar nuevo blogger"
+						icon="ui-icon-disk"
+						action="#{controllerUsuario.actionRegistrarBlogger()}"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</div>
+</body>
+</html>

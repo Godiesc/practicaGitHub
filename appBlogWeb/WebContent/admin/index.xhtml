@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<div align="right">
+		<p:commandButton action="#{controllerUsuario.actionSalir()}"
+			icon="ui-icon-close" value="Cerrar sesión"></p:commandButton>
+	</div>
+	<p:messages autoUpdate="true"></p:messages>
+	<p:panel header="FUNCIONES DEL ADMINISTRADOR">
+
+		<p:panel header="ADMINISTRAR USUARIOS BLOGGER" toggleable="true"
+			toggleOrientation="vertical">
+			<h:form>
+				<p:commandButton value="Reporte" ajax="false"
+					action="#{controllerBlog.actionReporte()}"></p:commandButton>
+			</h:form>
+			<h:form id="form1">
+				<p:dataTable value="#{controllerUsuario.actionListaBloggers()}"
+					var="a" id="tabla1">
+					<p:column headerText="idUsuario">
+						<h:outputText value="#{a.idUsuario}" />
+					</p:column>
+					<p:column headerText="Clave">
+						<h:outputText value="#{a.clave}" />
+					</p:column>
+					<p:column headerText="Correo">
+						<h:outputText value="#{a.correo}" />
+					</p:column>
+					<p:column headerText="ELIMINAR">
+						<p:commandButton icon="ui-icon-close"
+							action="#{controllerUsuario.actionEliminarBlogger(a.idUsuario)}"
+							update=":form1:tabla1"></p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+		<p:panel header="ADMINISTRAR DE ARTICULOS" toggleable="true"
+			toggleOrientation="vertical">
+			<h:form id="form2">
+				<p:dataTable value="#{controllerBlog.consultarArticulos()}" var="a"
+					id="tabla2">
+					<p:column headerText="TÍTULO ARTICULO">
+						<h:outputText value="#{a.titulo}" />
+					</p:column>
+					<p:column headerText="CONTENIDO">
+						<h:outputText value="#{a.contenido}" />
+					</p:column>
+					<p:column headerText="BLOG">
+						<h:outputText value="#{a.blog.nombreBlog}" />
+					</p:column>
+					<p:column headerText="ACTIVO">
+						<h:outputText value="#{a.activo}" />
+					</p:column>
+					<p:column headerText="CENSURAR/ACTIVAR">
+						<p:commandButton icon="ui-icon-check" update=":form2:tabla2"
+							actionListener="#{controllerBlog.actionListenercensurarArticulo(a)}"></p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</p:panel>
+</body>
+</html>
